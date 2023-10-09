@@ -1,0 +1,1 @@
+{"name":"Local: ctrick","url":"/Users/autoastt/Desktop/cp-new-era/spoj/ctrick.cpp","tests":[{"id":1693630546110,"input":"2\n4\n5","output":"2 1 4 3\n3 1 4 5 2"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/autoastt/Desktop/cp-new-era/spoj/ctrick.cpp","group":"local","local":true}

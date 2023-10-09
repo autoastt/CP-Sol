@@ -1,0 +1,1 @@
+{"name":"Local: 1651","url":"/Users/autoastt/Desktop/cp-new-era/cses/1651.cpp","tests":[{"id":1693668244669,"input":"8 3\n3 2 4 5 1 1 5 3\n2 4\n1 2 5 1\n2 2","output":"5\n3"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/autoastt/Desktop/cp-new-era/cses/1651.cpp","group":"local","local":true}
