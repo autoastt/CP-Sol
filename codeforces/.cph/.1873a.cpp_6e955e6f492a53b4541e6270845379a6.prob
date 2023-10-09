@@ -1,1 +1,0 @@
-{"name":"Local: 1873a","url":"/Users/autoastt/Desktop/cp-new-era/codeforces/1873a.cpp","tests":[{"id":1695306969238,"input":"6\nabc\nacb\nbac\nbca\ncab\ncba","output":"YES\nYES\nYES\nNO\nNO\nYES"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/Users/autoastt/Desktop/cp-new-era/codeforces/1873a.cpp","group":"local","local":true}
