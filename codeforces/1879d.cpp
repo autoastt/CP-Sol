@@ -6,24 +6,21 @@ const int N = 3e5 + 5;
 ll a[N];
 
 void solve() {
-    ll n, ans = 0, pow = 1;
+    ll n, ans = 0;
     cin >> n;
-    for(int i = 0; i < n; i++) cin >> a[i];
+    for(int i = 1; i <= n; i++) cin >> a[i];
     for(int i = 0; i < 30; i++){
-        int cnt = 0;
-        bool odd = false;
-        for(int j = 0; j < n; j++){
-            if(a[j] & (1<<j)) odd = !odd;
-            if(odd){
-                cnt++;
-            }
+        ll cnt[2] = {}, sum[2] = {}, now = 1<<i;
+        bool cur = 0;
+        cnt[0] = 1;
+        for(int j = 1; j <= n; j++){
+            cur ^= (a[j] & now ? 1 : 0);
+            cnt[cur]++;
+            sum[cur] += j;
+            ans = (ans + (cnt[cur^1] * j - sum[cur^1]) % M * now) % M;
         }
-        for(int j = 0; j < n; j++){
-            ans += pow * cnt;
-            if(a[j] & (1<<j)) cnt = n-j-cnt;
-        }
-        pow *= 2;
     }
+    cout << ans;
 }
 
 int main() {
