@@ -8,7 +8,7 @@ void solve() {
     ll l = 0, r = n, mid, ans;
     while(l < r){
         mid = (l+r)/2;
-        ll cnt = mid * x + min((n-mid+7)/7, 2*mid) * t;
+        ll cnt = mid * x + min((n+6)/7, 2*mid) * t;
         if(cnt >= p) r = mid;
         else l = mid+1;
     }
