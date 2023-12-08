@@ -1,8 +1,7 @@
-/***
+/*
 Dynamic Range Sum Queries
 2 Sep 2023
-***/
-
+*/
 #include<bits/stdc++.h>
 using namespace std;
 #define ll long long
