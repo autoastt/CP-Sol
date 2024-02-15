@@ -2,25 +2,28 @@
 using namespace std;
 #define ll long long
 const int N = 2e5+5;
+
 int a[N];
 
 void solve() {
-  int n, ans = 0, b = 1e9, c = 1e9;
+  int n, cnt = 0, sum = 0;
   cin >> n;
   for(int i = 0; i < n; i++){
-    int x;
-    cin >> x;
-    if(x <= b) b = x;
-    else if (x <= c) {
-      c = x;
-    }
-    else {
-      b = x;
-      ans++;
-    }
-    if(b > c) swap(b, c);
+    cin >> a[i];
+    sum += a[i];
   }
-  cout << ans << '\n';
+  sum /= n;
+  for(int i = 0; i < n; i++){
+    if(a[i] < sum){
+      if(cnt >= sum - a[i]){
+        cnt -= sum - a[i];
+        continue;
+      }
+      return void(cout << "NO\n");
+    }
+    else cnt += a[i] - sum;
+  }
+  cout << "YES\n";
 }
 
 int main() {
@@ -31,3 +34,5 @@ int main() {
         solve();
     }
 }
+
+
