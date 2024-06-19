@@ -13,7 +13,7 @@ vector<int> adj[N];
 struct Fenwick {
     int n;
     vector<ll> t;
-    
+
     Fenwick(int n) : n(n) { t.assign(n+1, 0); }
 
     void update(int i, int val){
