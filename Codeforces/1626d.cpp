@@ -36,11 +36,11 @@ void solve() {
                 int kk = 1 << k;
 
                 int pos_i = upper_bound(a, a+n+1, ii) - a - 1;
-                int low = pos_i == 0 ? 0 : a[pos_i];
+                int low = a[pos_i];
 
                 int pos_j = upper_bound(a, a+n+1, jj + low) - a - 1;
-                int mid = pos_j == 0 ? 0 : a[pos_j];
-                mid -= low;
+                if(pos_i == pos_j && pos_i != n) continue;
+                int mid = a[pos_j] - low;
 
                 int high = a[n] - mid - low;
                 if(high > kk) continue;

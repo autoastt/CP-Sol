@@ -19,16 +19,16 @@ void solve() {
     int n;
     cin >> n;
     ll ans = 0, last_pos = 0, last_h = 0;
-    for(int i = 1; i <= n; i++) cin >> k[i];
+    for (int i = 1; i <= n; i++) cin >> k[i];
     vector<pll> v;
-    for(int i = 1; i <= n; i++) {
+    for (int i = 1; i <= n; i++) {
         cin >> h[i];
         v.pb({k[i] - h[i], k[i]});
     }
     sort(all(v));
-    for(auto [st, ed] : v) {
-        if(ed <= last_pos) continue;
-        else if(st < last_pos) {
+    for (auto [st, ed] : v) {
+        if (ed <= last_pos) continue;
+        else if (st < last_pos) {
             ll x = ed - last_pos + last_h;
             ans += x * (x + 1) / 2 - last_h * (last_h + 1) / 2;
             last_h = x;
@@ -39,7 +39,6 @@ void solve() {
             last_h = ed - st;
             last_pos = ed;
         }
-        // cout << ans << " " << last_pos << " " << last_h << "\n";
     }
     cout << ans << "\n";
 }
