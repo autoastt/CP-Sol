@@ -1,76 +1,115 @@
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
-const int N = 1e5+5;
+using ll = long long;
+using pii = pair<int, int>;
+using pll = pair<ll, ll>;
+using vi = vector<int>;
+using vll = vector<ll>;
+#define pb push_back
+#define lb lower_bound
+#define ub upper_bound
+#define sz(x) int((x).size())
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
 
-int in[N], timer, edge[N], dis[N], first[N], mn[20][1<<20];
-vector<pair<int, int>> adj[N];
-vector<int> euler;
+#define GET_MACRO(_1, _2, _3, _4, NAME,...) NAME
+#define rep(...) GET_MACRO(__VA_ARGS__, rep3, rep2, rep1, rep0)(__VA_ARGS__)
+#define rrep(...) GET_MACRO(__VA_ARGS__, rrep3, rrep2, rrep1, rrep0)(__VA_ARGS__)
+#define rep0(a) for (int i = 0; i < a; i++)
+#define rep1(i, a) for (int i = 0; i < a; i++)
+#define rep2(i, a, b) for (int i = a; i <= b; i++)
+#define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
+#define rrep2(i, a, b) for (int i = a; i >= b; i--)
+#define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 
-void dfs(int u, int p, int e, int h){
+const bool CASES = false;
+const int N = 1e5 + 5;
+const int M = 1e9 + 7;
+const int INF = 2e9;
+const ll LLINF = 1e18;
+
+ll fw[N];
+
+void update(int i, int x) {
+    for (; i < N; i += i & -i) fw[i] += x;
+}
+
+ll sum(int i) {
+    ll ret = 0;
+    for (; i > 0; i -= i & -i) ret += fw[i];
+    return ret;
+}
+
+vi adj[N];
+vector<pii> e;
+int in[N], out[N], timer, par[25][N], dis[N];
+
+void dfs(int u, int p) {
     in[u] = ++timer;
-    edge[e] = timer;
-    dis[u] = h;
-    first[u] = euler.size();
-    euler.push_back(u);
-    for(auto [v, id] : adj[u]) if(v != p) dfs(v, u, id, h+1);
+    par[0][u] = p;
+    dis[u] = dis[p] + 1;
+    for (auto v : adj[u]) if (v != p) dfs(v, u);
+    out[u] = timer;
 }
 
-int find_min(int l, int r){
-    int k = 31 - __builtin_clz(r-l+1);
-    return min(mn[k][l], mn[k][r-k]);
-}
-
-int lca(int u, int v){
-
-}
-
-struct Fenwick {
+void solve() {
     int n;
-    vector<int> fw;
-
-    Fenwick(int n) : n(n) {fw.assign(n+1, 0);}
-
-    void update(int i, int val){
-        for(; i <= n; i += i & -i) fw[i] += val;
-    }
-
-    int sum(int i){
-        int ret = 0;
-        for(; i > 0; i -= i & -i) ret += fw[i];
-        return ret;
-    }
-};
-
-int main(){
-    int n, m;
     cin >> n;
-    for(int i = 1; i < n; i++){
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back({b, i});
-        adj[b].push_back({a, i});
+    rep (i, 1, n-1) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+        e.pb({u, v});
     }
-    dfs(1, 0, 0, 0);
-    for(int i = 0; i < euler.size(); i++){
-        mn[0][i] = euler[i];
+    dfs(1, 0);
+    rep (i, 1, 20) {
+        rep (j, 1, n) {
+            par[i][j] = par[i-1][par[i-1][j]];
+        }
     }
-    Fenwick fw(n);
+    auto jump = [&](int x, int k) {
+        rep (20) if (k & (1 << i)) x = par[i][x];
+        return x;
+    };
+    auto lca = [&](int u, int v) {
+        if (dis[u] < dis[v]) swap(u, v);
+        u = jump(u, dis[u] - dis[v]);
+        if (u == v) return u;
+        rrep (20) if (par[i][u] != par[i][v]) u = par[i][u], v = par[i][v];
+        return par[0][u];
+    };
+    rep (i, 1, n) update(in[i], 1), update(out[i] + 1, -1);
+    int m;
     cin >> m;
-    while(m--){
-        int op, id, a, b;
-        cin >> op;
-        if(op == 1){
-            cin >> id;
-            fw.update(edge[id], -1);
+    while (m--) {
+        int t;
+        cin >> t;
+        if (t != 3) {
+            int x; cin >> x;
+            auto [u, v] = e[--x];
+            if (dis[u] < dis[v]) swap(u, v);
+            update(in[u], t & 1 ? 1 : -1);
+            update(out[u] + 1, t & 1 ? -1 : 1);
         }
-        else if(op == 2){
-            cin >> id;
-            fw.update(edge[id], 1);
+        else {
+            int u, v;
+            cin >> u >> v;
+            int x = lca(u, v);
+            int d = sum(in[u]) + sum(in[v]) - 2 * sum(in[x]);
+            if (d == dis[u] + dis[v] - 2 * dis[x]) cout << d << "\n";
+            else cout << "-1\n";
         }
-        else{
-            cin >> a >> b;
-            if(in[a] > in[b]) swap(a, b);
-            cout << (fw.sum(in[b]) - fw.sum(in[a]) ? -1 : in[b] - in[a]) << "\n";
-        }
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false); cin.tie(0);
+    int t = 1;
+    if (CASES) cin >> t;
+    while (t--) {
+        solve();
     }
 }

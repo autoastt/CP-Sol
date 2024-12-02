@@ -25,14 +25,44 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 3e3 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+struct A {
+    int x, i, j;
+};
 
+A dp[N][N];
+
+void solve() {
+    string s, t;
+    cin >> s >> t;
+    int n = sz(s), m = sz(t);
+    rep (i, n + 1) dp[i][0] = {0, -1, -1};
+    rep (j, m + 1) dp[0][j] = {0, -1, -1};
+    rep (i, 1, n) {
+        rep (j, 1, m) {
+            if (dp[i - 1][j].x >= dp[i][j - 1].x) dp[i][j] = dp[i - 1][j];
+            else dp[i][j] = dp[i][j - 1];
+            if (s[i - 1] == t[j - 1]) {
+                if (dp[i - 1][j - 1].x + 1 > dp[i][j].x) {
+                    dp[i][j] = {dp[i - 1][j - 1].x + 1, i - 1, j - 1};
+                }
+            }
+        }
+    }
+    string ans = "";
+    int x = dp[n][m].i, y = dp[n][m].j;
+    while (y >= 0) {
+        ans = t[y] + ans;
+        int tmp = x;
+        x = dp[x][y].i;
+        y = dp[tmp][y].j;
+    }
+    cout << ans;
 }
 
 int main() {

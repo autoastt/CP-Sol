@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +31,21 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    int a = 0, b = 0, c = 0, d = 0;
+    string s;
+    cin >> n >> s;
+    rep (i, sz(s)) {
+        if (s[i] == 'A') a++;
+        else if (s[i] == 'B') b++;
+        else if (s[i] == 'C') c++;
+        else if (s[i] == 'D') d++;
+    }
+    a = min(a, n);
+    b = min(b, n);
+    c = min(c, n);
+    d = min(d, n);
+    cout << a + b + c + d << "\n";
 }
 
 int main() {

@@ -25,38 +25,55 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-    int n, k;
-    string s;
-    cin >> n >> k >> s;
-    vi l(k), r(k), mark(n + 1, 0);
-    rep (k) cin >> l[i], l[i]--;
-    rep (k) cin >> r[i], r[i]--;
-    int q;
-    cin >> q;
-    while (q--) {
+    int n;
+    cin >> n;
+    vector<pii> c0, c1;
+    rep (i, 1, n) {
+        rep (j, 1, n)
+            if ((i + j) & 1) c1.pb({i, j});
+            else c0.pb({i, j});
+    }
+    rep (n * n) {
         int x;
         cin >> x;
-        int idx = lb(all(r), --x) - r.begin();
-        int ll = min(x, l[idx] + r[idx] - x), rr = max(x, l[idx] + r[idx] - x);
-        mark[ll]++; mark[++rr]--;
-    }
-    rep (i, 1, n) mark[i] += mark[i-1];
-    string ret = s;
-    rep (k) {
-        int j = l[i], len = l[i] + r[i];
-        while (j <= r[i]) {
-            if (mark[j] & 1) ret[j] = s[len - j];
-            j++;
+        if (x == 1) {
+            if (sz(c1)) {
+                cout << 2 << " " << c1.back().first << " " << c1.back().second << endl;
+                c1.pop_back();
+            }
+            else {
+                cout << 3 << " " << c0.back().first << " " << c0.back().second << endl;
+                c0.pop_back();
+            }
+        }
+        else if (x == 2) {
+            if (sz(c0)) {
+                cout << 1 << " " << c0.back().first << " " << c0.back().second << endl;
+                c0.pop_back();
+            }
+            else {
+                cout << 3 << " " << c1.back().first << " " << c1.back().second << endl;
+                c1.pop_back();
+            }
+        }
+        else {
+            if (sz(c0)) {
+                cout << 1 << " " << c0.back().first << " " << c0.back().second << endl;
+                c0.pop_back();
+            }
+            else {
+                cout << 2 << " " << c1.back().first << " " << c1.back().second << endl;
+                c1.pop_back();
+            }
         }
     }
-    cout << ret << NL;
 }
 
 int main() {

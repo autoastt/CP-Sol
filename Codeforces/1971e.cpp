@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep2(i, a, b) for (int i = a; i >= b; i--)
-#define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
+#define rrep2(i, a, b) for (int i = b; i >= a; i--)
+#define rrep3(i, a, b, c) for (int i = b; i >= a; i -= c)
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,22 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll a[N], b[N];
 
+void solve() {
+    int n, k, q;
+    cin >> n >> k >> q;
+    rep (i, 1, k) cin >> a[i];
+    rep (i, 1, k) cin >> b[i];
+    rep (q) {
+        int d;
+        cin >> d;
+        int idx = ub(a, a + k + 1, d) - a - 1;
+        ll ans = b[idx];
+        if (d < n) ans += (d - a[idx]) * (b[idx+1] - b[idx]) / (a[idx+1] - a[idx]);
+        cout << ans << " ";
+    }
+    cout << "\n";
 }
 
 int main() {

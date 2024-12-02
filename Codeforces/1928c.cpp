@@ -19,8 +19,8 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
@@ -31,8 +31,26 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+set<int> s;
 
+void cal(int x) {
+    rep (i, 1, sqrt(x)) {
+        if (x % i) continue;
+        s.insert(i + 1);
+        s.insert(x / i + 1);
+    }
+}
+
+void solve() {
+    int n, x;
+    cin >> n >> x;
+    if ((n - x) & 1) return void(cout << 0 << NL);
+    cal((n - x) / 2);
+    if (x > 1) cal((n + x - 2) / 2);
+    set<int> tmp = s;
+    for (auto i : tmp) if (i < x) s.erase(i);
+    cout << sz(s) << NL;
+    s.clear();
 }
 
 int main() {

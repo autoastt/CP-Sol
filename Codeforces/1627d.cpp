@@ -25,14 +25,25 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 1e6 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+bool mark[N];
 
+void solve() {
+    int n, a, ans = 0;
+    cin >> n;
+    rep (n) cin >> a, mark[a] = true;
+    rrep (i, 1e6, 1) {
+        if (mark[i]) continue;
+        int now = 0, cnt = 0;
+        for (int j = 2; 1ll * i * j < N; j++) if (mark[i * j]) now = gcd(now, j), cnt++;
+        if (cnt > 1 && now == 1) mark[i] = true, ans++;
+    }
+    cout << ans;
 }
 
 int main() {

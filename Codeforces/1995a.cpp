@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +31,21 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, k;
+    cin >> n >> k;
+    int ans = 0;
+    if (!k) return void(cout << "0\n");
+    if (k <= n) return void(cout << "1\n");
+    k -= n;
+    ans++;
+    rrep (i, n-1, 1) {
+        k -= i;
+        ans++;
+        if (k <= 0) return void(cout << ans << "\n");
+        k -= i;
+        ans++;
+        if (k <= 0) return void(cout << ans << "\n");
+    }
 }
 
 int main() {

@@ -32,7 +32,28 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, k;
+    cin >> n >> k;
+    if (k == 1 || k > n) return void(cout << n << NL);
+    int ans = 0;
+    auto fpow = [](int x, int k) {
+        int ret = 1;
+        while (k) {
+            if (k & 1) ret *= x;
+            x *= x;
+            k >>= 1;
+        }
+        return ret;
+    };
+    while (n > 0) {
+        int tmp = log(n) / log(k);
+        if (tmp == 0) break;
+        int x = fpow(k, tmp);
+        int y = n / x;
+        n -= y * x;
+        ans += y;
+    }
+    cout << ans + n << NL;
 }
 
 int main() {

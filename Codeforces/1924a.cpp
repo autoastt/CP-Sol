@@ -19,20 +19,43 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 1e3 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, k, m;
+    string s, ss;
+    cin >> n >> k >> m >> s;
+    vector<bool> vis(k);
+    int cnt = 0;
+    rep (i, m) {
+        int now = s[i] - 'a';
+        if (!vis[now]) cnt++;
+        vis[now] = true;
+        if (cnt == k) {
+            ss.pb(s[i]);
+            cnt = 0;
+            vis.assign(k, false);
+        }
+    }
+    if (sz(ss) >= n) cout << "YES\n";
+    else {
+        rep (i, k) {
+            if (vis[i]) continue;
+            int tmp = n - sz(ss);
+            rep (j, tmp) ss.pb(i + 'a');
+            break;
+        }
+        cout << "NO\n" << ss << "\n";
+    }
 }
 
 int main() {

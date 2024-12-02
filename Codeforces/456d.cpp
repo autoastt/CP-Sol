@@ -25,14 +25,55 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 1e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int t[N][26], node;
+bool l[N], w[N];
 
+void add(string s) {
+    int u = 0;
+    for (auto i : s) {
+        if (t[u][i - 'a'] == 0) t[u][i - 'a'] = ++node;
+        u = t[u][i - 'a'];
+    }
+}
+
+void dfs(int u) {
+    bool ww = 1, ll = 1, leaf = 1;
+    rep (26) {
+        if (t[u][i] == 0) continue;
+        int v = t[u][i];
+        dfs(v);
+        ww &= w[v];
+        ll &= l[v];
+        leaf = 0;
+    }
+    if (leaf) {
+        w[u] = 0;
+        l[u] = 1;
+        return;
+    }
+    w[u] = !ww;
+    l[u] = !ll;
+}
+
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    rep (n) {
+        string s;
+        cin >> s;
+        add(s);
+    }
+    dfs(0);
+    bool ww = w[0], ll = l[0];
+    if (ww && ll) cout << "First";
+    else if (ww) cout << (k & 1 ? "First" : "Second");
+    else cout << "Second";
 }
 
 int main() {

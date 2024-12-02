@@ -26,13 +26,46 @@ using vll = vector<ll>;
 #define NL '\n'
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 10;
 const int M = 1e9 + 7;
+const ll K = 1e4;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll fpow(ll x, ll y) {
+    ll ret = 1;
+    while (y) {
+        if (y & 1) ret = ret * x % M;
+        x = x * x % M;
+        y >>= 1;
+    }
+    return ret;
+}
 
+ll inv(ll x) {
+    return fpow(x, M - 2);
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    vll a(n + 1), p(n + 1);
+    rep (n) cin >> a[i];
+    rep (n) cin >> p[i];
+    ll ans = 0, x = inv(fpow(K, n));
+    vll dp(1 << N, 0);
+    dp[0] = 1;
+    rep (i, n) {
+        vll ndp = dp;
+        rep (j, 1 << N) {
+            ndp[j] = (dp[j ^ a[i]] * p[i] % M + dp[j] * (K - p[i]) % M) % M;
+        }
+        swap(dp, ndp);
+    }
+    rep (1 << N) {
+        ans = (ans + i * i % M * dp[i] % M * x % M) % M;
+    }
+    cout << ans << NL;
 }
 
 int main() {

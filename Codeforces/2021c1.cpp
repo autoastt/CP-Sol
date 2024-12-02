@@ -32,7 +32,21 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m, q;
+    cin >> n >> m >> q;
+    vi a(n), b;
+    rep (n) cin >> a[i];
+    set<int> s;
+    rep (m) {
+        int x;
+        cin >> x;
+        if (s.count(x) == 0) b.pb(x);
+        s.insert(x);
+    }
+    rep (min(sz(b), n)) {
+        if (a[i] != b[i]) return void(cout << "TIDAK\n");
+    }
+    cout << "YA\n";
 }
 
 int main() {

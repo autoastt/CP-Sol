@@ -25,14 +25,31 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 1e2 + 5;
+const int K = 1e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int a[N], g[K], n;
 
+int f(int x) {
+    if (g[x] || x == 0) return g[x];
+    set<int> s;
+    for (int i = 0; i < n; i++) {
+        if (x >= a[i]) s.insert(f(x - a[i]));
+    }
+    int mex = 0;
+    while (s.count(mex)) mex++;
+    return g[x] = mex;
+}
+
+void solve() {
+    int k;
+    cin >> n >> k;
+    rep (n) cin >> a[i];
+    cout << (!f(k) ? "Second" : "First");
 }
 
 int main() {

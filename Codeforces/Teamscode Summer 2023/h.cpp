@@ -25,14 +25,25 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vll a(n), b(n);
+    rep (n) cin >> a[i], a[i] *= 1ll * (i + 1) * (n - i);
+    rep (n) cin >> b[i];
+    sort(all(a));
+    sort(rall(b));
+    ll ans = 0;
+    rep (n) {
+        ans += a[i] * b[i];
+    }
+    cout << ans;
 }
 
 int main() {

@@ -25,14 +25,40 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m;
+    cin >> n >> m;
+    vi a(n + 1), pos(n + 1, INF);
+    rep (i, 1, n) {
+        cin >> a[i];
+        pos[a[i]] = i;
+    }
+    int ans = 0;
+    rep (i, 1, n) ans += pos[i] < pos[i - 1];
+    while (m--) {
+        int x, y;
+        cin >> x >> y;
+        if (x > y) swap(x, y);
+        int pre = 0, aft = 0, i = a[x], j = a[y];
+        if (i - 1 > 0 && pos[i] < pos[i - 1]) pre++;
+        if (i + 1 <= n && pos[i + 1] < pos[i]) pre++;
+        if (i != j - 1 && j - 1 > 0 && pos[j] < pos[j - 1]) pre++;
+        if (i != j + 1 && j + 1 <= n && pos[j + 1] < pos[j]) pre++;
+        swap(pos[a[x]], pos[a[y]]);
+        swap(a[x], a[y]);
+        if (i - 1 > 0 && pos[i] < pos[i - 1]) aft++;
+        if (i + 1 <= n && pos[i + 1] < pos[i]) aft++;
+        if (i != j - 1 && j - 1 > 0 && pos[j] < pos[j - 1]) aft++;
+        if (i != j + 1 && j + 1 <= n && pos[j + 1] < pos[j]) aft++;
+        ans += aft - pre;
+        cout << ans << NL;
+    }
 }
 
 int main() {

@@ -32,7 +32,31 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, m;
+    cin >> n >> m;
+    ll ans = 0, mx = 0;
+    while (n--) {
+        set<int> s;
+        ll mex = 0, cnt = 0, l;
+        cin >> l;
+        while (l--) {
+            int x;
+            cin >> x;
+            s.insert(x);
+        }
+        while (mex <= *s.rbegin()) {
+            if (s.count(mex)) mex++;
+            else {
+                if (!cnt) cnt++, mex++;
+                else break;
+            }
+        }
+        if (!cnt) mex++;
+        mx = max(mx, mex);
+    }
+    ans = mx * min(mx + 1, m + 1);
+    if (m > mx) ans += m * (m + 1) / 2 - mx * (mx + 1) / 2;
+    cout << ans << NL;
 }
 
 int main() {

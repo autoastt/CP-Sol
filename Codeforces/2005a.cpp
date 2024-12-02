@@ -31,8 +31,22 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+char a[] = {'a', 'e', 'i', 'o', 'u'};
 
+void solve() {
+    int n;
+    cin >> n;
+    string s;
+    if (n < 6) {
+        rep (n) s += a[i];
+        return void(cout << s << NL);
+    }
+    int k = n % 5;
+    rep (i, 5) {
+        rep (j, n / 5) s += a[i];
+        if (i < k) s += a[i];
+    }
+    cout << s << NL;
 }
 
 int main() {

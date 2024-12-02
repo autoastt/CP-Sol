@@ -31,8 +31,25 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll f(ll x) {
+    if (x < 0) return 0;
+    ll ret = 0, p = 1;
+    while (p <= x) {
+        ll pp = p * 10;
+        ll d = (x % pp) / p;
+        ret += d * (d + 1) / 2 * p * ((x + pp - 1) / pp);
+        ret += (45 - d * (d + 1) / 2) * p * (x / pp);
+        ret -= d * ((d + 1) * p - (x % pp) - 1);
+        // cout << p << " " << d << " " << ret << NL;
+        p *= 10;
+    }
+    return ret;
+}
 
+void solve() {
+    ll l, r;
+    cin >> l >> r;
+    cout << f(r) - f(l - 1) << NL;
 }
 
 int main() {

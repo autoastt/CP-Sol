@@ -25,14 +25,34 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 5e4 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+bitset<N> vis[N];
+vi adj[N];
 
+void dfs(int u, int p) {
+    vis[u][u] = 1;
+    for (auto v : adj[u]) {
+        if (v == p) continue;
+        if (!vis[v][v]) dfs(v, u);
+        vis[u] |= vis[v];
+    }
+}
+
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    rep (m) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+    }
+    rep (i, 1, n) if (!vis[i][i]) dfs(i, 0);
+    rep (i, 1, n) cout << vis[i].count() << " ";
 }
 
 int main() {

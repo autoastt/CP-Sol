@@ -25,14 +25,28 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vector<double> dp(n + 1, 0);
+    dp[0] = 1;
+    rep (i, 1, n) {
+        double p;
+        cin >> p;
+        rrep (j, i, 1) {
+            dp[j] = dp[j] * (1 - p) + dp[j - 1] * p;
+        }
+        dp[0] = dp[0] * (1 - p);
+    }
+    double ans = 0;
+    rep (i, n / 2 + 1, n) ans += dp[i];
+    cout << fixed << setprecision(10) << ans;
 }
 
 int main() {

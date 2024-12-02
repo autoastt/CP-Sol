@@ -19,20 +19,48 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+vi adj[N], arti;
+int tin[N], low[N], timer;
 
+void dfs(int u, int p) {
+    tin[u] = low[u] = ++timer;
+    int cnt = 0;
+    bool added = false;
+    for (auto v : adj[u]) if (v != p) {
+        if (tin[v]) low[u] = min(low[u], tin[v]);
+        else {
+            dfs(v, u);
+            cnt++;
+            low[u] = min(low[u], low[v]);
+            if (low[v] >= tin[u] && u != 1 && !added) arti.pb(u), added = true;
+        }
+    }
+    if (cnt > 1 && u == 1) arti.pb(u);
+}
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    rep (m) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    dfs(1, 0);
+    cout << sz(arti) << NL;
+    for (auto u : arti) cout << u << " ";
 }
 
 int main() {

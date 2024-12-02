@@ -32,7 +32,20 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m;
+    cin >> n >> m;
+    vi a(n + 1, 0);
+    rep (i, 1, n) cin >> a[i];
+    int mx = *max_element(all(a));
+    rep (m) {
+        int l, r;
+        char c;
+        cin >> c >> l >> r;
+        if (c == '+' && l <= mx && mx <= r) mx++;
+        else if (c == '-' && l <= mx && mx <= r) mx--;
+        cout << mx << " ";
+    }
+    cout << NL;
 }
 
 int main() {

@@ -32,7 +32,28 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    string s = "", t = "01";
+    int i = 0, x;
+    bool pre = false;
+    while (sz(s) < n) {
+        string ss;
+        if (pre) ss = t[i] + s;
+        else ss = s + t[i];
+        cout << "? " << ss << endl;
+        cin >> x;
+        if (x) s = ss;
+        else {
+            if (pre) ss = t[!i] + s;
+            else ss = s + t[!i];
+            cout << "? " << ss << endl;
+            cin >> x;
+            if (x) s = ss, i = !i;
+            else pre = !pre, i = s[0] == '0' ? 1 : 0;
+        }
+    }
+    cout << "! " << s << endl;
 }
 
 int main() {

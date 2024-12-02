@@ -25,14 +25,37 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+vi adj[N];
+int dp[N], in[N];
 
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    rep (m) {
+        int x, y;
+        cin >> x >> y;
+        adj[x].pb(y);
+        in[y]++;
+    }
+    queue<int> q;
+    rep (i, 1, n) if (in[i] == 0) q.push(i);
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        for (auto v : adj[u]) {
+            if (--in[v] == 0) {
+                dp[v] = dp[u] + 1;
+                q.push(v);
+            }
+        }
+    }
+    cout << *max_element(dp + 1, dp + n + 1);
 }
 
 int main() {

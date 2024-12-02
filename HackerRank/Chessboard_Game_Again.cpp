@@ -31,8 +31,33 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int g[20][20], dx[] = {-2, -2, 1, -1}, dy[] = {1, -1, -2, -2};
 
+int cal(int x, int y) {
+    if (x <= 2 && y <= 2) return 0;
+    if (g[x][y]) return g[x][y];
+    set<int> s;
+    rep (4) {
+        int xx = x + dx[i], yy = y + dy[i];
+        if (xx > 0 && xx <= 15 && yy > 0 && yy <= 15) s.insert(cal(xx, yy));
+    }
+    int mex = 0;
+    while (1) {
+        if (!s.count(mex)) break;
+        mex++;
+    }
+    return g[x][y] = mex;
+}
+
+void solve() {
+    int k, ans = 0;
+    cin >> k;
+    rep (k) {
+        int x, y;
+        cin >> x >> y;
+        ans ^= cal(x, y);
+    }
+    cout << (ans ? "First\n" : "Second\n");
 }
 
 int main() {

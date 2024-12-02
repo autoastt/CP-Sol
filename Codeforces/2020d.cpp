@@ -31,8 +31,54 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int p[N], s[N], ans;
 
+int fp(int u) {
+    return p[u] = u == p[u] ? u : fp(p[u]);
+}
+
+void com(int u, int v) {
+    u = fp(u);
+    v = fp(v);
+    if (u == v) return;
+    if (s[u] < s[v]) swap(u, v);
+    p[v] = u;
+    s[u] += s[v];
+    ans--;
+}
+
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    ans = n;
+    rep (i, 1, n) {
+        p[i] = i;
+        s[i] = 1;
+    }
+    vector<pii> v[15][15];
+    rep (m) {
+        int a, d, k;
+        cin >> a >> d >> k;
+        v[d][a % d].pb({a, k});
+    }
+    rep (d, 1, 10) {
+        rep (i, d) {
+            sort(all(v[d][i]));
+            int pre = i;
+            for (auto [a, k] : v[d][i]) {
+                int tmp = a + k * d;
+                if (pre > a) k -= (pre - a) / d, a = pre;
+                int b = a + d;
+                while (k > 0) {
+                    com(a, b);
+                    b += d;
+                    k--;
+                }
+                pre = max(pre, tmp);
+            }
+        }
+    }
+    cout << ans << NL;
 }
 
 int main() {

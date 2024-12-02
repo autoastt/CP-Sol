@@ -32,7 +32,16 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n;
+    cin >> n;
+    ll ans = 0;
+    rep (n) {
+        ll x;
+        cin >> x;
+        if (i == n - 2) ans -= x;
+        else ans += x;
+    }
+    cout << ans << NL;
 }
 
 int main() {

@@ -31,32 +31,53 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
+int dx[] = {1, -1, 0, 0};
+int dy[] = {0, 0, 1, -1};
+
 void solve() {
-    int n, k;
-    string s;
-    cin >> n >> k >> s;
-    vi l(k), r(k), mark(n + 1, 0);
-    rep (k) cin >> l[i], l[i]--;
-    rep (k) cin >> r[i], r[i]--;
-    int q;
-    cin >> q;
-    while (q--) {
-        int x;
-        cin >> x;
-        int idx = lb(all(r), --x) - r.begin();
-        int ll = min(x, l[idx] + r[idx] - x), rr = max(x, l[idx] + r[idx] - x);
-        mark[ll]++; mark[++rr]--;
+    int n, m;
+    cin >> n >> m;
+    vector<vi> dis(n, vi(m, -1));
+    queue<pii> q;
+    vi v;
+    v.pb(dis[n / 2][m / 2] = 0);
+    if (n & 1 && m & 1) {
+        q.push({n / 2, m / 2});
     }
-    rep (i, 1, n) mark[i] += mark[i-1];
-    string ret = s;
-    rep (k) {
-        int j = l[i], len = l[i] + r[i];
-        while (j <= r[i]) {
-            if (mark[j] & 1) ret[j] = s[len - j];
-            j++;
+    else if (m & 1) {
+        q.push({n / 2, m / 2});
+        q.push({n / 2 - 1, m / 2});
+        v.pb(dis[n / 2 - 1][m / 2] = 0);
+    }
+    else if (n & 1) {
+        q.push({n / 2, m / 2});
+        q.push({n / 2, m / 2 - 1});
+        v.pb(dis[n / 2][m / 2 - 1] = 0);
+    }
+    else {
+        q.push({n / 2, m / 2});
+        q.push({n / 2 - 1, m / 2});
+        q.push({n / 2, m / 2 - 1});
+        q.push({n / 2 - 1, m / 2 - 1});
+        v.pb(dis[n / 2 - 1][m / 2] = 0);
+        v.pb(dis[n / 2][m / 2 - 1] = 0);
+        v.pb(dis[n / 2 - 1][m / 2 - 1] = 0);
+    }
+    while (!q.empty()) {
+        auto [x, y] = q.front();
+        q.pop();
+        rep (4) {
+            int xx = x + dx[i];
+            int yy = y + dy[i];
+            if (xx < 0 || xx >= n || yy < 0 || yy >= m || dis[xx][yy] != -1) continue;
+            q.push({xx, yy});
+            v.pb(dis[xx][yy] = dis[x][y] + 1);
         }
     }
-    cout << ret << NL;
+    sort(all(v));
+    int ans = n / 2 + m / 2;
+    for (auto i : v) cout << (ans + i) << ' ';
+    cout << NL;
 }
 
 int main() {

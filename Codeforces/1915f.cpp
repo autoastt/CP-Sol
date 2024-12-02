@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,41 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+struct Fenwick {
+    int n;
+    vll bit;
 
+    Fenwick(int n) : n(n) {
+        bit.assign(n + 1, 0);
+    }
+
+    void update(int i) {
+        for (; i <= n; i += i & -i) bit[i]++;
+    }
+
+    ll query(int i) {
+        ll ret = 0;
+        for (; i > 0; i -= i & -i) ret += bit[i];
+        return ret;
+    }
+};
+
+void solve() {
+    ll n, ans = 0;
+    cin >> n;
+    vector<pll> v(n + 1), a(n), b(n);
+    rep (n) cin >> a[i].first >> b[i].first, a[i].second = b[i].second = i + 1;
+    sort(all(a));
+    sort(all(b));
+    rep (n) v[a[i].second].first = i + 1, v[b[i].second].second = i + 1;
+    sort(all(v));
+    Fenwick fw(n);
+    rep (i, 1, n) {
+        auto [x, y] = v[i];
+        ans += 1ll * i - 1 - fw.query(y - 1);
+        fw.update(y);
+    }
+    cout << ans << '\n';
 }
 
 int main() {

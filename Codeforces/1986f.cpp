@@ -19,8 +19,8 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
@@ -31,8 +31,45 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+vi adj[N];
+int n, m;
+int tin[N], low[N], sz[N], timer;
+ll ans;
 
+void dfs(int u, int p) {
+    tin[u] = low[u] = ++timer;
+    sz[u] = 1;
+    for (auto v : adj[u]) {
+        if (v == p) continue;
+        if (tin[v]) low[u] = min(low[u], tin[v]);
+        else {
+            dfs(v, u);
+            sz[u] += sz[v];
+            low[u] = min(low[u], low[v]);
+            if (low[v] > tin[u]) {
+                ll x = sz[v], y = n - x;
+                ans = max(ans, 1ll * x * y);
+            }
+        }
+    }
+}
+
+void solve() {
+    cin >> n >> m;
+    rep (n + 1) adj[i].clear();
+    fill_n(tin, N, 0);
+    fill_n(low, N, 0);
+    fill_n(sz, N, 0);
+    timer = 0;
+    ans = 0;
+    rep (m) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    dfs(1, 0);
+    cout << 1ll * n * (n - 1) / 2 - ans << NL;
 }
 
 int main() {

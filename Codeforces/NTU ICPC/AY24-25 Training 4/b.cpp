@@ -19,20 +19,46 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int c[N];
+vi adj[N];
 
+int dfs(int u, int p, int x) {
+    if (p != 0 && c[u] != x) return u;
+    set<int> s{c[u]};
+    for (auto v : adj[u]) {
+        if (v == p) continue;
+        int x = dfs(v, u, c[v]);
+        if (x != -1) return x;
+        s.insert(c[v]);
+    }
+    if (p == 0) return u;
+    return s.size() > 1 ? u : -1;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    rep (n-1) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    rep (i, 1, n) cin >> c[i];
+    int root = dfs(1, 0, 0);
+    if (dfs(root, 0, 0) != root) return void(cout << "NO");
+    cout << "YES\n" << root << "\n";
 }
 
 int main() {

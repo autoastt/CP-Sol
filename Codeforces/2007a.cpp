@@ -32,7 +32,10 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int l, r;
+    cin >> l >> r;
+    if (l & 1) l--;
+    cout << (r - l + 1) / 4 << NL;
 }
 
 int main() {

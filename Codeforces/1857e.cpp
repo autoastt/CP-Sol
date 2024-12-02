@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,24 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll dp[N], rdp[N];
 
+void solve() {
+    int n;
+    cin >> n;
+    vll a(n);
+    vector<pll> v;
+    fill_n(dp, N, 0);
+    fill_n(rdp, N, 0);
+    rep (i, n) cin >> a[i], v.pb({a[i], i});
+    sort(all(v));
+    rep (i, 1, n-1) dp[i] = dp[i-1] + i * (v[i].first - v[i-1].first);
+    rrep (i, n-2, 0) rdp[i] = rdp[i+1] + (n - i - 1) * (v[i+1].first - v[i].first);
+    vector<pll> ans;
+    rep (i, n) ans.pb({v[i].second, dp[i] + rdp[i] + n});
+    sort(all(ans));
+    for (auto [i, x] : ans) cout << x << " ";
+    cout << "\n";
 }
 
 int main() {

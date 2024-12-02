@@ -31,32 +31,62 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
+vector<pll> adj[N];
+ll dis[2][N][2];
+bool horse[N];
+
+struct A {
+    ll u, d, h;
+    bool operator <(const A &o) const {
+        return d > o.d;
+    }
+};
+
 void solve() {
-    int n, k;
-    string s;
-    cin >> n >> k >> s;
-    vi l(k), r(k), mark(n + 1, 0);
-    rep (k) cin >> l[i], l[i]--;
-    rep (k) cin >> r[i], r[i]--;
-    int q;
-    cin >> q;
-    while (q--) {
+    int n, m, h;
+    cin >> n >> m >> h;
+    rep (n + 1) adj[i].clear(), horse[i] = false;
+    rep (i, 2)
+        rep (j, n + 1)
+            rep (k, 2)
+                 dis[i][j][k] = LLINF;
+    rep (h) {
         int x;
         cin >> x;
-        int idx = lb(all(r), --x) - r.begin();
-        int ll = min(x, l[idx] + r[idx] - x), rr = max(x, l[idx] + r[idx] - x);
-        mark[ll]++; mark[++rr]--;
+        horse[x] = true;
     }
-    rep (i, 1, n) mark[i] += mark[i-1];
-    string ret = s;
-    rep (k) {
-        int j = l[i], len = l[i] + r[i];
-        while (j <= r[i]) {
-            if (mark[j] & 1) ret[j] = s[len - j];
-            j++;
+    rep (m) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u].pb({v, w});
+        adj[v].pb({u, w});
+    }
+    auto dijk = [&](int st, int k) {
+        priority_queue<A> pq;
+        pq.push({st, dis[k][st][0] = 0, 0});
+        while (!pq.empty()) {
+            auto [u, d, x] = pq.top();
+            pq.pop();
+            if (dis[k][u][x] != d) continue;
+            if (!x && horse[u] && dis[k][u][1] > d) {
+                pq.push({u, dis[k][u][1] = d, 1});
+            }
+            for (auto [v, w] : adj[u]) {
+                if (dis[k][v][x] > d + (x ? w / 2 : w)) {
+                    pq.push({v, dis[k][v][x] = d + (x ? w / 2 : w), x});
+                }
+            }
         }
+    };
+    dijk(1, 0);
+    dijk(n, 1);
+    ll ans = LLINF;
+    rep (i, 1, n) {
+        rep (j, 2)
+            rep (k, 2)
+                ans = min(ans, max(dis[0][i][j], dis[1][i][k]));
     }
-    cout << ret << NL;
+    cout << (ans == LLINF ? -1 : ans) << NL;
 }
 
 int main() {

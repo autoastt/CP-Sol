@@ -32,7 +32,48 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m, p;
+    cin >> n >> m >> p;
+    vll x(p), ans(n + 1, 0);
+    rep (p) cin >> x[i];
+    vector<vll> d(n + 1, vll(n + 1, LLINF));
+    rep (m) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        d[u][v] = d[v][u] = w;
+    }
+    rep (k, 1, n) {
+        rep (i, 1, n) {
+            rep (j, 1, n) {
+                d[i][j] = min(d[i][j], max(d[i][k], d[k][j]));
+            }
+        }
+    }
+    ll sum = 0;
+    vll mark;
+    rrep (k, p - 1, 1) {
+        ll mn = LLINF, use = -1;
+        cout << k << NL;
+        rep (i, p) {
+            ll now = LLINF;
+            for (auto j : mark) {
+                rep (x, p)
+            }
+            // if (x[i] == -1) continue;
+            // rep (j, p) {
+            //     if (i == j || x[j] == -1) continue;
+            //     now = min(now, d[x[i]][x[j]]);
+            // }
+            cout << i << " " << now << NL;
+            if (now < mn) mn = now, use = i;
+        }
+        cout << k << " use = " << x[use] << NL;
+        sum += mn;
+        ans[k] = sum;
+        x[use] = -1;
+    }
+    rep (i, 1, n) cout << ans[i] << " ";
+    cout << NL;
 }
 
 int main() {

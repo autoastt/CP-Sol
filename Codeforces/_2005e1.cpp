@@ -32,7 +32,24 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int l, n, m;
+    cin >> l >> n >> m;
+    vector<pii> pos[8];
+    vi a(l);
+    rep (l) cin >> a[i];
+    rep (i, n) rep (j, m) {
+        int x;
+        cin >> x;
+        pos[x].pb({i, j});
+    }
+    int now = 0, ii = 0, jj = 0;
+    rep (l) {
+        if (pos[a[i]].empty()) break;
+        auto [x, y] = pos[a[i]].back();
+        if (x > ii && y > jj) ii = x, jj = y, now = !now;
+        else break;
+    }
+    cout << (now ? 'T' : 'N') << NL;
 }
 
 int main() {

@@ -25,14 +25,26 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vi dp(3, 0);
+    rep (n) {
+        int a, b, c;
+        cin >> a >> b >> c;
+        vi ndp = dp;
+        ndp[0] = max(dp[1], dp[2]) + a;
+        ndp[1] = max(dp[0], dp[2]) + b;
+        ndp[2] = max(dp[1], dp[0]) + c;
+        swap(dp, ndp);
+    }
+    cout << *max_element(all(dp));
 }
 
 int main() {

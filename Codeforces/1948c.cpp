@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,31 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int dx[] = {0, 0, 1, -1}, dy[] = {1, -1, 0, 0};
+string s[2];
+bool vis[2][N];
 
+void solve() {
+    int n;
+    cin >> n >> s[0] >> s[1];
+    fill_n(vis[0], 2 * N, false);
+    queue<pii> q;
+    q.push({0, 0});
+    while (!q.empty()) {
+        auto [x, y] = q.front();
+        q.pop();
+        if (vis[x][y]) continue;
+        vis[x][y] = true;
+        rep (i, 4) {
+            int xx = x + dx[i], yy = y + dy[i];
+            if (xx < 0 || xx >= 2 || yy < 0 || yy >= n) continue;
+            if (s[xx][yy] == '>') yy++;
+            else yy--;
+            if (vis[xx][yy]) continue;
+            q.push({xx, yy});
+        }
+    }
+    cout << (vis[1][n-1] ? "YES\n" : "NO\n");
 }
 
 int main() {

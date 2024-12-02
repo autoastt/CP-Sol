@@ -25,14 +25,40 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    vector<vector<int>> v;
+    while (1) {
+        vector<int> tmp;
+        string s;
+        getline(cin, s);
+        s += ' ';
+        string now = "";
+        for (auto i : s) {
+            if (i == ' ') tmp.pb(stoi(now)), now = "";
+            else now += i;
+        }
+        if (tmp[0] == -1) break;
+        v.pb(tmp);
+    }
+    int n = sz(v), ans = 0;
+    rep (n) {
+        bool inc = v[i][0] < v[i][1], safe = true;
+        int m = sz(v[i]);
+        rep (j, 1, m - 1) {
+            int dif = v[i][j] - v[i][j - 1];
+            if (!inc) dif *= -1;
+            if (dif >= 1 && dif <= 3) continue;
+            safe = false;
+        }
+        ans += safe;
+    }
+    cout << ans;
 }
 
 int main() {

@@ -26,13 +26,37 @@ using vll = vector<ll>;
 #define NL '\n'
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 1e3 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+char a[] = {'n', 'a', 'r', 'e', 'k'};
+set<char> ss = {'n', 'a', 'r', 'e', 'k'};
 
+void solve() {
+    ll n, m;
+    cin >> n >> m;
+    vll dp(5, -LLINF);
+    dp[4] = 0;
+    rep (n) {
+        string s;
+        cin >> s;
+        vll ndp = dp;
+        ll cnt = 0;
+        for (auto j : s) cnt += ss.count(j);
+        rep (j, 5) {
+            ll score = 0, now = (j + 1) % 5;
+            for (auto k : s) {
+                if (k == a[now]) now++;
+                if (now == 5) score++, now = 0;
+            }
+            now = (now + 4) % 5;
+            if (dp[j] != -LLINF) ndp[now] = max(ndp[now], dp[j] + 1ll * 10 * score - cnt);
+        }
+        dp = ndp;
+    }
+    cout << *max_element(all(dp)) << NL;
 }
 
 int main() {

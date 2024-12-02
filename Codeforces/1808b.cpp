@@ -32,7 +32,22 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m;
+    cin >> n >> m;
+    vector<vll> a(m, vll(n));
+    rep (n) {
+        rep (j, m) {
+            cin >> a[j][i];
+        }
+    }
+    ll ans = 0;
+    rep (m) {
+        sort(all(a[i]));
+        rep (j, n) {
+            ans -= (n - 2 * j - 1) * a[i][j];
+        }
+    }
+    cout << ans << NL;
 }
 
 int main() {

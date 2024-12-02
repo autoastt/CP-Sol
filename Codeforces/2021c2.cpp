@@ -32,7 +32,18 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
+    int n, m, q;
+    cin >> n >> m >> q;
+    vi a(n);
+    rep (n) cin >> a[i];
+    set<int> pos[n + 1];
+    rep (m) {
+        int x;
+        cin >> x;
+    }
+    rep (q) {
 
+    }
 }
 
 int main() {

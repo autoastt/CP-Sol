@@ -32,7 +32,20 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vll a(n);
+    ll sum = 0;
+    rep (n) {
+        cin >> a[i];
+    }
+    sort(all(a));
+    sum = a[0];
+    rep (i, 1, n - 1) {
+        sum += a[i];
+        sum /= 2;
+    }
+    cout << sum << NL;
 }
 
 int main() {

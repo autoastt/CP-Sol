@@ -19,20 +19,36 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 1e4;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vector<pii> ret;
+    vi digit = {n % 10, (n / 10) % 10, (n / 100) % 10};
+    int d = to_string(n).size(), x = 0;
+    reverse(digit.begin(), digit.begin() + d);
+    if (n == 1) rep (i, 2, N) ret.pb({i, i-1});
+    else rep (i, 1, to_string(n * N).size()) {
+        x = x * 10 + digit[(i - 1) % d];
+        if ((x - i) % (n - d)) continue;
+        int a = (x - i) / (n - d);
+        int b = d * a - i;
+        if (a > N || b > min(N, a * n)) continue;
+        if (a == 0 || b == 0) continue;
+        ret.pb({a, b});
+    }
+    cout << sz(ret) << "\n";
+    for (auto [a, b] : ret) cout << a << " " << b << "\n";
 }
 
 int main() {

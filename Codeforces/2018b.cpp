@@ -32,7 +32,26 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    deque<pii> l, r;
+    rep (n) {
+        int x;
+        cin >> x;
+        l.push_back({x, i});
+        r.push_back({x, i});
+    }
+    rrep (i, n, 2) {
+        if (l.back().first >= i) l.pop_back();
+        else if (l.front().first >= i) l.pop_front();
+        else break;
+    }
+    rrep (i, n, 2) {
+        if (r.front().first >= i) r.pop_front();
+        else if (r.back().first >= i) r.pop_back();
+        else break;
+    }
+    cout << (sz(l) == 1 ? r.back().second - l.back().second + 1 : 0) << NL;
 }
 
 int main() {

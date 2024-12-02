@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,39 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll a[N];
 
+void solve() {
+    ll n;
+    cin >> n;
+    ll e = 0, cnt = 0;
+    bool no = false;
+    rep (i, n) cin >> a[i];
+    rep (i, 1, n-1) {
+        if (a[i-1] == a[i]) cnt += e;
+        else if (a[i-1] < a[i]) {
+            if (a[i] == 1) {
+                no = true;
+                break;
+            }
+            ll x = 0, tmp = a[i-1] * a[i-1];
+            while (tmp > 1 && tmp <= a[i]) tmp *= tmp, x++;
+            e = max(1ll * 0, e-x);
+            cnt += e;
+        }
+        else {
+            if (a[i] == 1) {
+                no = true;
+                break;
+            }
+            ll x = 0, tmp = a[i];
+            while (a[i-1] > tmp) tmp *= tmp, x++;
+            e += x;
+            cnt += e;
+        }
+    }
+    if (no) cout << -1 << "\n";
+    else cout << cnt << "\n";
 }
 
 int main() {

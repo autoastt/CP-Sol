@@ -25,14 +25,32 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, s;
+    cin >> n >> s;
+    auto cal = [&](ll x) {
+        ll k = 0;
+        ll tmp = x;
+        while (tmp) {
+            k += tmp % 10;
+            tmp /= 10;
+        }
+        return x - k;
+    };
+    ll l = 0, r = LLINF, k;
+    while (l < r) {
+        ll mid = (l + r + 1) / 2;
+        ll x = cal(mid);
+        if (x < s) l = mid;
+        else r = mid - 1, k = mid;
+    }
+    cout << max(1ll * 0, n - k + 1);
 }
 
 int main() {

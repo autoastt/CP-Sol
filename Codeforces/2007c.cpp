@@ -32,7 +32,20 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, a, b;
+    cin >> n >> a >> b;
+    int d = gcd(a, b);
+    vi v;
+    set<int> s;
+    rep (n) {
+        int x;
+        cin >> x;
+        s.insert(x % d);
+    }
+    for (auto i : s) v.pb(i);
+    int ans = v.back() - v[0];
+    rep (sz(v) - 1) ans = min(ans, v[i] + d - v[i + 1]);
+    cout << ans << NL;
 }
 
 int main() {

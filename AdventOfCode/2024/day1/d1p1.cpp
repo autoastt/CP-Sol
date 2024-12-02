@@ -25,14 +25,26 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll ans = 0, x, y;
+    vll a, b;
+    while (1) {
+        cin >> x >> y;
+        if (x == -1 && y == -1) break;
+        a.pb(x);
+        b.pb(y);
+    }
+    int n = sz(a);
+    sort(all(a));
+    sort(all(b));
+    rep (n) ans += abs(a[i] - b[i]);
+    cout << ans;
 }
 
 int main() {

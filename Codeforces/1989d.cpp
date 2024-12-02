@@ -19,20 +19,51 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 1e6 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll dp[N], a[N], b[N];
 
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    vector<pll> v, x;
+    rep (n) cin >> a[i];
+    rep (n) cin >> b[i], v.pb({a[i] - b[i], a[i]});
+    sort(all(v));
+    rep (n) {
+        if (sz(x) && (v[i].first == x.back().first || v[i].second >= x.back().second)) continue;
+        x.pb(v[i]);
+    }
+    reverse(all(x));
+    int j = 0;
+    rep (N) {
+        if (i >= x[j].second) j++;
+        if (j > sz(x)) break;
+        if (!j) continue;
+        auto [d, aj] = x[j-1];
+        ll k = (i - aj) / d + 1;
+        dp[i] = 2 * k + (i >= k * d ? dp[i - k * d] : 0);
+    }
+    ll ans = 0;
+    rep (m) {
+        int c; cin >> c;
+        if (c >= x.back().second) {
+            ll k = (c - x.back().second) / x.back().first + 1;
+            ans += 2 * k;
+            c -= k * x.back().first;
+        }
+        if (c > 0) ans += dp[c];
+    }
+    cout << ans;
 }
 
 int main() {

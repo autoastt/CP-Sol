@@ -19,8 +19,8 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
@@ -32,7 +32,38 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, k;
+    cin >> n >> k;
+    vi a(n);
+    map<int, vector<int>> mp;
+    rep (n) cin >> a[i];
+    sort(all(a));
+    rep (n) mp[a[i] % k].pb(a[i]);
+    ll ans = 0, mx = 0;
+    bool odd = n & 1, found = false;
+    for (auto [i, v] : mp) {
+        if (sz(v) & 1) {
+            if (!odd || found) return void(cout << -1 << NL);
+            found = true;
+            if (sz(v) == 1) continue;
+            vll l(sz(v), 0);
+            ll mn = LLINF, r = 0;
+            for (int j = 1; j < sz(v); j += 2) {
+                if (j > 1) l[j] = l[j - 2];
+                l[j] += (v[j] - v[j - 1]) / k;
+                mn = l[j];
+            }
+            for (int j = sz(v) - 2; j > 0; j -= 2) {
+                r += (v[j + 1] - v[j]) / k;
+                ll now = r;
+                if (j > 1) now += l[j - 2];
+                mn = min(mn, now);
+            }
+            ans += mn;
+        }
+        else for (int j = 1; j < sz(v); j += 2) ans += (v[j] - v[j - 1]) / k;
+    }
+    cout << ans << NL;
 }
 
 int main() {

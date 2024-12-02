@@ -19,20 +19,29 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep2(i, a, b) for (int i = a; i >= b; i--)
-#define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
+#define rrep2(i, a, b) for (int i = b; i >= a; i--)
+#define rrep3(i, a, b, c) for (int i = b; i >= a; i -= c)
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 1e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int a[N];
 
+void solve() {
+    int n, x, y;
+    cin >> n >> x >> y;
+    rep (i, y, x) a[i] = 1;
+    int k = -1;
+    rrep (i, 1, y-1) a[i] = k, k = -k;
+    k = -1;
+    rep (i, x+1, n) a[i] = k, k = -k;
+    rep (i, 1, n) cout << a[i] << " ";
+    cout << "\n";
 }
 
 int main() {

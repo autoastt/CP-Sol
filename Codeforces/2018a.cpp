@@ -32,7 +32,15 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, k, sum = 0, mx = 0;
+    cin >> n >> k;
+    vll a(n);
+    rep (n) cin >> a[i], sum += a[i], mx = max(mx, a[i]);
+    rrep (i, n, 1) {
+        if (mx * i <= sum + k) {
+            if (i - (sum - 1) % i - 1 <= k) return void(cout << i << NL);
+        }
+    }
 }
 
 int main() {

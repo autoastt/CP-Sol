@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,30 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+void clique(int st, int n) {
+    if (n == 1) return void(cout << st + 1 << " ");
+    int mid = n / 2;
+    rep (i, 1, mid) cout << mid - i + 1 + st << " ";
+    rep (i, mid+1, n) cout << mid + n - i + 1 + st << " ";
+}
 
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    if (k >= n) {
+        clique(0, n);
+        cout << "\n";
+        cout << 1 << "\n";
+        rep (n) cout << 1 << " ";
+        cout << "\n";
+        return;
+    }
+    int last = n - (n % k), j = 1;
+    rep (i, 0, last - 1, k) clique(i, k);
+    clique(last, n % k);
+    cout << "\n" << (n + k - 1) / k << "\n";
+    rep (i, 1, n) cout << j << " ", j += !(i % k);
+    cout << "\n";
 }
 
 int main() {

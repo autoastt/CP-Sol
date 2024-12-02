@@ -31,8 +31,44 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll f[N], cnt[N];
 
+void solve() {
+    ll n, m;
+    cin >> n >> m;
+    rep (N) f[i] = i, cnt[i] = 0;
+    ll ans = 0, mx = 0, dummy = 0;
+    vector<pll> mexx;
+    while (n--) {
+        set<int> s;
+        ll mex = 0, pre = -1, l;
+        cin >> l;
+        while (l--) {
+            int x;
+            cin >> x;
+            s.insert(x);
+        }
+        while (mex <= *s.rbegin()) {
+            if (s.count(mex)) mex++;
+            else {
+                if (pre == -1) pre = mex++;
+                else break;
+            }
+        }
+        if (pre == -1) pre = mex++;
+        mexx.pb({pre, mex});
+        cnt[pre]++;
+        mx = max(mx, mex);
+    }
+    sort(rall(mexx));
+    for (auto [i, j] : mexx) f[i] = max(f[i], f[j]);
+    rep (mx + 1) {
+        if (cnt[i] > 1) dummy = max(dummy, f[i]);
+        else if (cnt[i] == 1) dummy = max(dummy, 1ll * i);
+    }
+    for (ll i = 0; i <= min(mx, m); i++) ans += max(dummy, f[i]);
+    if (m > mx) ans += m * (m + 1) / 2 - mx * (mx + 1) / 2;
+    cout << ans << NL;
 }
 
 int main() {

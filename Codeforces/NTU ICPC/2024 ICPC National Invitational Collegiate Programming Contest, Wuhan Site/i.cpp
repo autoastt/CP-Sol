@@ -25,14 +25,22 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    string s;
+    cin >> s;
+    int ans = 0;
+    for (int i = 0; i < sz(s); i++) {
+        if (s[i] == '0') continue;
+        while (s[i] == '1') i++;
+        if (i < sz(s)) ans++;
+    }
+    cout << ans;
 }
 
 int main() {

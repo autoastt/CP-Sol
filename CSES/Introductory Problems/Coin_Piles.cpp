@@ -32,7 +32,15 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int a, b;
+    cin >> a >> b;
+    int x = 2 * a - b;
+    int y = 2 * b - a;
+    if (x % 3 || y % 3) return void(cout << "NO\n");
+    x /= 3;
+    y /= 3;
+    if (x >= 0 && y >= 0) cout << "YES\n";
+    else cout << "NO\n";
 }
 
 int main() {

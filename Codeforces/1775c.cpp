@@ -32,7 +32,21 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, x;
+    cin >> n >> x;
+    if (x == n) return void(cout << n << NL);
+    rrep (63) {
+        bool nn = n >> i & 1;
+        bool xx = x >> i & 1;
+        if (xx && !nn) return void(cout << -1 << NL);
+        if (nn && !xx) {
+            ll ans = n;
+            rep (j, 0, i) if (ans >> j & 1) ans ^= 1ll << j;
+            if (ans < n) ans += 1ll << (i + 1);
+            n &= ans;
+            return void(cout << (n == x ? ans : -1) << NL);
+        }
+    }
 }
 
 int main() {

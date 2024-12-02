@@ -19,11 +19,14 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
+#define S ' '
+
+void yn(bool x);
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +35,28 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, k;
+    cin >> n >> k;
+    vll a(n);
+    rep (n) cin >> a[i];
+    sort(rall(a));
+    vll x;
+    ll sa = 0, sb = 0;
+    rep (n) {
+        if (i & 1) {
+            sb += a[i];
+            x.pb(a[i-1] - a[i]);
+        }
+        else sa += a[i];
+    }
+    rep (sz(x)) {
+        if (k >= x[i]) k -= x[i], sb += x[i];
+        else {
+            sb += k;
+            break;
+        }
+    }
+    cout << sa - sb << NL;
 }
 
 int main() {
@@ -42,4 +66,8 @@ int main() {
     while (t--) {
         solve();
     }
+}
+
+void yn(bool x) {
+    cout << (x ? "YES" : "NO") << NL;
 }

@@ -32,7 +32,21 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    set<int> s;
+    bool odd = 0, even = 0;
+    rep (n) {
+        int x;
+        cin >> x;
+        s.insert(x);
+        odd |= x & 1;
+        even |= !(x & 1);
+    }
+    if (odd & even) return void(cout << -1 << NL);
+    cout << 31 << NL;
+    rrep (30) cout << (1 << i) << " ";
+    cout << even << NL;
 }
 
 int main() {

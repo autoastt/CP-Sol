@@ -32,31 +32,56 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-    int n, k;
-    string s;
-    cin >> n >> k >> s;
-    vi l(k), r(k), mark(n + 1, 0);
-    rep (k) cin >> l[i], l[i]--;
-    rep (k) cin >> r[i], r[i]--;
-    int q;
-    cin >> q;
-    while (q--) {
-        int x;
-        cin >> x;
-        int idx = lb(all(r), --x) - r.begin();
-        int ll = min(x, l[idx] + r[idx] - x), rr = max(x, l[idx] + r[idx] - x);
-        mark[ll]++; mark[++rr]--;
+    int n, m;
+    cin >> n >> m;
+    vi adj[n + 1];
+    rep (m) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].pb(v);
+        adj[v].pb(u);
     }
-    rep (i, 1, n) mark[i] += mark[i-1];
-    string ret = s;
-    rep (k) {
-        int j = l[i], len = l[i] + r[i];
-        while (j <= r[i]) {
-            if (mark[j] & 1) ret[j] = s[len - j];
-            j++;
+    vi vis(n + 1, -1), c[2];
+    bool bipartite = true;
+    queue<int> q;
+    q.push(1);
+    vis[1] = 0;
+    while (!q.empty()) {
+        int u = q.front();
+        q.pop();
+        c[vis[u]].pb(u);
+        for (auto v : adj[u]) {
+            if (vis[v] == -1) {
+                vis[v] = vis[u] ^ 1;
+                q.push(v);
+            }
+            else bipartite &= vis[u] ^ vis[v];
         }
     }
-    cout << ret << NL;
+    if (bipartite) {
+        cout << "Bob" << endl;
+        int c0 = 0, c1 = 0;
+        rep (n) {
+            int a, b;
+            cin >> a >> b;
+            if (a == 1 || b == 1) {
+                if (c0 < sz(c[0])) cout << c[0][c0++] << ' ' << 1 << endl;
+                else cout << c[1][c1++] << ' ' << a + b - 1 << endl;
+            }
+            else if (a == 2 || b == 2) {
+                if (c1 < sz(c[1])) cout << c[1][c1++] << ' ' << 2 << endl;
+                else cout << c[0][c0++] << ' ' << a + b - 2 << endl;
+            }
+        }
+    }
+    else {
+        cout << "Alice" << endl;
+        rep (n) {
+            cout << "1 2" << endl;
+            int a, b;
+            cin >> a >> b;
+        }
+    }
 }
 
 int main() {

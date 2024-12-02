@@ -29,10 +29,36 @@ const bool CASES = true;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
-const ll LLINF = 1e18;
+const ll LLINF = 2e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vll a(n), b;
+    rep (n) cin >> a[i];
+    b = a;
+    sort(all(a));
+    rep (n / 2) {
+        ll sum = a[i] + a[n - i - 1];
+        a[i] = sum / 2;
+        a[n - i - 1] = (sum + 1) / 2;
+    }
+    ll mx = -LLINF, mn = LLINF, now = 0;
+    rep (n) {
+        if (b[i] == a[i]) continue;
+        else if (b[i] > a[i]) {
+            now -= b[i] - a[i];
+            if (now > 0) break;
+            b[i] = a[i];
+        }
+        else {
+            now -= b[i] - a[i];
+            if (now > 0) break;
+            b[i] = a[i];
+        }
+    }
+    rep (n) mx = max(mx, b[i]), mn = min(mn, b[i]);
+    cout << mx - mn << NL;
 }
 
 int main() {

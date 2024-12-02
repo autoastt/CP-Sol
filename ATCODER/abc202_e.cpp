@@ -19,20 +19,47 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+vi adj[N];
+int tin[N], tout[N], timer;
+vi lvl[N];
 
+void dfs(int u, int p, int d) {
+    tin[u] = ++timer;
+    lvl[d].pb(timer);
+    for (auto v : adj[u]) if (v != p) dfs(v, u, d + 1);
+    tout[u] = timer;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    rep (n-1) {
+        int p, u = i + 2;
+        cin >> p;
+        adj[u].pb(p);
+        adj[p].pb(u);
+    }
+    dfs(1, 0, 0);
+    int q;
+    cin >> q;
+    while (q--) {
+        int u, d;
+        cin >> u >> d;
+        int l = lb(all(lvl[d]), tin[u]) - lvl[d].begin();
+        int r = ub(all(lvl[d]), tout[u]) - lvl[d].begin();
+        cout << r - l << "\n";
+    }
 }
 
 int main() {

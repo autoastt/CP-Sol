@@ -25,14 +25,45 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 1e6 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int trie[N][26], nnode;
+bool stop[N];
 
+void add(string s) {
+    int u = 0;
+    for (auto i : s) {
+        if (trie[u][i - 'a'] == 0) trie[u][i - 'a'] = ++nnode;
+        u = trie[u][i - 'a'];
+    }
+    stop[u] = true;
+}
+
+void solve() {
+    int n, k;
+    string s;
+    cin >> s >> k;
+    n = sz(s);
+    rep (k) {
+        string x;
+        cin >> x;
+        add(x);
+    }
+    vll dp(n + 1, 0);
+    dp[n] = 1;
+    rrep (i, n) {
+        int u = 0;
+        rep (j, i, n - 1) {
+            if (trie[u][s[j] - 'a'] == 0) break;
+            u = trie[u][s[j] - 'a'];
+            if (stop[u]) dp[i] = (dp[i] + dp[j + 1]) % M;
+        }
+    }
+    cout << dp[0];
 }
 
 int main() {

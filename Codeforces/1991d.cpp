@@ -32,7 +32,18 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    if (n == 1) cout << "1\n1\n";
+    else if (n == 2) cout << "2\n1 2\n";
+    else if (n == 3) cout << "2\n1 2 2\n";
+    else if (n == 4) cout << "3\n1 2 2 3\n";
+    else if (n == 5) cout << "3\n1 2 2 3 3\n";
+    else {
+        cout << 4 << NL;
+        rep (i, 1, n) cout << (i - 1) % 4 + 1 << " ";
+        cout << NL;
+    }
 }
 
 int main() {

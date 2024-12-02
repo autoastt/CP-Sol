@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +31,30 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, ans = 0, mx = 0;
+    cin >> n;
+    map<int, int> cnt;
+    vi c;
+    rep (n) {
+        int x;
+        cin >> x;
+        cnt[x]++;
+    }
+    for (auto [i, x] : cnt) c.pb(x);
+    // dp[k] = min number of k types of cakes Bob eats
+    vi dp(sz(c) + 1, INF);
+    dp[0] = 0;
+    rep (i, 1, sz(c)) {
+        vi ndp = dp;
+        // from c[0] to c[i-1], update dp[j] if Bob can eat c[i-1]
+        rep (j, 1, sz(c)) {
+            if (dp[j-1] + c[i-1] <= i - j)
+                ndp[j] = min(ndp[j], dp[j-1] + c[i-1]);
+        }
+        dp = ndp;
+    }
+    rep (i, 0, sz(c)) if (dp[i] != INF) ans = max(ans, i);
+    cout << sz(c) - ans << "\n";
 }
 
 int main() {

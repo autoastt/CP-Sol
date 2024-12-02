@@ -32,7 +32,25 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n; string s;
+    cin >> n >> s;
+    vi cnt(26, 0);
+    for (auto i : s) cnt[i - 'a']++;
+    vector<pii> v;
+    rep (26) if (cnt[i]) v.pb({cnt[i], i});
+    sort(rall(v));
+    string ans;
+    int i = 0, j = sz(v) - 1;
+    while (i < j) {
+        ans += v[i].second + 'a';
+        ans += v[j].second + 'a';
+        v[i].first--;
+        v[j].first--;
+        if (v[i].first == 0) i++;
+        if (v[j].first == 0) j--;
+    }
+    while (v[i].first--) ans += v[i].second + 'a';
+    cout << ans << NL;
 }
 
 int main() {

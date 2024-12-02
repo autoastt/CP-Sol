@@ -25,14 +25,29 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    string s;
+    cin >> s;
+    int n = sz(s);
+    map<char, int> mp;
+    for (char i : s) mp[i]++;
+    string x = "", lst = "";
+    int odd = 0;
+    for (auto [c, k] : mp) {
+        if (k & 1) odd++, lst = c;
+        rep ((k) / 2) x += c;
+    }
+    if (odd > 1) return void(cout << "NO SOLUTION");
+    string y = x;
+    reverse(all(y));
+    x += (odd ? lst : "") + y;
+    cout << x;
 }
 
 int main() {

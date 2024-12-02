@@ -19,20 +19,45 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, cnt = 0;
+    string s;
+    cin >> n >> s;
+    rep (i, 1, n-2) {
+        if (s[i] == s[i-1]) {
+            if (s[i] == 'R') {
+                if (s[i+1] == 'R' || s[i+1] == 'G') s[i] = 'B';
+                else s[i] = 'G';
+            }
+            else if (s[i] == 'B') {
+                if (s[i+1] == 'B' || s[i+1] == 'G') s[i] = 'R';
+                else s[i] = 'G';
+            }
+            else {
+                if (s[i+1] == 'G' || s[i+1] == 'R') s[i] = 'B';
+                else s[i] = 'R';
+            }
+            cnt++;
+        }
+    }
+    if (s[n-1] == s[n-2]) {
+        if (s[n-1] == 'R') s[n-1] = 'B';
+        else if (s[n-1] == 'B') s[n-1] = 'G';
+        else s[n-1] = 'R';
+        cnt++;
+    }
+    cout << cnt << '\n' << s;
 }
 
 int main() {

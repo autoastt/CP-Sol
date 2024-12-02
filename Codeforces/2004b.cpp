@@ -19,11 +19,14 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
+#define S ' '
+
+void yn(bool x);
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +35,14 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int l, r, L, R;
+    cin >> l >> r >> L >> R;
+    if (r < L || R < l) return void(cout << 1 << NL);
+    int x = max(l, L), y = min(r, R);
+    int ans = y - x + 2;
+    if (r == R) ans--;
+    if (l == L) ans--;
+    cout << ans << NL;
 }
 
 int main() {
@@ -42,4 +52,8 @@ int main() {
     while (t--) {
         solve();
     }
+}
+
+void yn(bool x) {
+    cout << (x ? "YES" : "NO") << NL;
 }

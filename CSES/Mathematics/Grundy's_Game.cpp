@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,25 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+map<ll, int> dp{{0, 0}, {1, 0}, {2, 0}};
 
+int grundy(int x) {
+    if (x == 0) return 0;
+    if (dp.count(x)) return dp[x];
+    set<int> s;
+    rep (i, 1, x-1) if (x-i != i) s.insert(grundy(i) ^ grundy(x-i));
+    int now = 0;
+    while (true) {
+        if (!s.count(now)) return dp[x] = now;
+        now++;
+    }
+    return 0;
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    cout << (n > 1500 || grundy(n) ? "first\n" : "second\n");
 }
 
 int main() {

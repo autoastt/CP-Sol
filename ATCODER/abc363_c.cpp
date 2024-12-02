@@ -19,20 +19,42 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep2(i, a, b) for (int i = a; i >= b; i--)
-#define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
+#define rrep2(i, a, b) for (int i = b; i >= a; i--)
+#define rrep3(i, a, b, c) for (int i = b; i >= a; i -= c)
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, k;
+    string s;
+    cin >> n >> k >> s;
+    sort(all(s));
+    int ans = 0;
+    do {
+        bool has = false;
+        rep (i, n-k+1) {
+            bool skip = false;
+            rep (j, k) {
+                if (s[i+j] != s[i+k-1-j]) {
+                    skip = true;
+                    break;
+                }
+            }
+            if (skip) continue;
+            else {
+                has = true;
+                break;
+            }
+        }
+        ans += !has;
+    } while(next_permutation(all(s)));
+    cout << ans;
 }
 
 int main() {

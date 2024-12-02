@@ -19,20 +19,29 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, m;
+    cin >> n >> m;
+    if (m >= n) return void(cout << n);
+    ll l = 1, r = 1e10;
+    while (l < r) {
+        ll mid = (l + r) / 2;
+        ll sum = mid * (mid + 1) / 2 + m;
+        if (sum >= n) r = mid;
+        else l = mid + 1;
+    }
+    cout << r + m;
 }
 
 int main() {

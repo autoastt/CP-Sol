@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,30 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll a[N], dp[2 * N];
 
+void solve() {
+    int n, k;
+    cin >> n >> k;
+    fill_n(dp, 2 * N, 0);
+    multiset<ll> cnt;
+    ll mx = 0, mxsum = 0, ans = INF;
+    rep (i, 1, n) cin >> a[i];
+    rep (i, 1, n/2) {
+        ll sum = a[i] + a[n-i+1];
+        ll l = min(a[i], a[n-i+1]) + 1;
+        ll r = max(a[i], a[n-i+1]) + k;
+        cnt.insert(sum);
+        dp[l]++;
+        dp[r+1]--;
+    }
+    rep (i, 2, 2*k) {
+        dp[i] += dp[i-1];
+        ll one = dp[i] - cnt.count(i);
+        ll two = n/2 - dp[i];
+        ans = min(ans, one + 2 * two);
+    }
+    cout << ans << "\n";
 }
 
 int main() {

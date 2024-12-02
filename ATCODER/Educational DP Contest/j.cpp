@@ -25,14 +25,33 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
-const int N = 2e5 + 5;
+const bool CASES = false;
+const int N = 3e2 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+double dp[N][N][N];
 
+void solve() {
+    int n;
+    cin >> n;
+    vi a(n), cnt(4, 0);
+    rep (n) cin >> a[i], cnt[a[i]]++;
+    rep (k, 0, cnt[3]) {
+        rep (j, 0, cnt[2] + cnt[3]) {
+            rep (i, 0, cnt[1] + cnt[2] + cnt[3]) {
+                double x = i + j + k;
+                if (x > n) continue;
+                if (x == 0) continue;
+                if (i) dp[i][j][k] += 1.0 * i / n * dp[i - 1][j][k];
+                if (j) dp[i][j][k] += 1.0 * j / n * dp[i + 1][j - 1][k];
+                if (k) dp[i][j][k] += 1.0 * k / n * dp[i][j + 1][k - 1];
+                dp[i][j][k] = (dp[i][j][k] + 1) / (1.0 * x / n);
+            }
+        }
+    }
+    cout << fixed << setprecision(12) << dp[cnt[1]][cnt[2]][cnt[3]];
 }
 
 int main() {

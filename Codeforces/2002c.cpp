@@ -19,20 +19,29 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a - 1; i >= 0; i--)
+#define rrep1(i, a) for (int i = a - 1; i >= 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
-const int N = 2e5 + 5;
+const int N = 1e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll x[N], y[N];
 
+void solve() {
+    int n;
+    cin >> n;
+    rep (n) cin >> x[i] >> y[i];
+    ll xs, ys, xt, yt;
+    cin >> xs >> ys >> xt >> yt;
+    ll dis = 2e18, target = (xt - xs) * (xt - xs) + (yt - ys) * (yt - ys);
+    rep (n) dis = min(dis, (xt - x[i]) * (xt - x[i]) + (yt - y[i]) * (yt - y[i]));
+    if (dis <= target) cout << "NO\n";
+    else cout << "YES\n";
 }
 
 int main() {

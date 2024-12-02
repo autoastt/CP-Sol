@@ -25,14 +25,29 @@ using vll = vector<ll>;
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
 #define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    string s, t;
+    cin >> s >> t;
+    int m = sz(t), ans = 0;
+    s = t + '#' + s;
+    vi z(sz(s), 0);
+    int l = 0, r = 0;
+    rep (i, 1, sz(s) - 1) {
+        z[i] = max(0, min(z[i - l], r - i + 1));
+        while (i + z[i] < sz(s) && s[z[i]] == s[i + z[i]]) {
+            l = i;
+            r = i + z[i];
+            z[i]++;
+        }
+        if (z[i] == m) ans++;
+    }
+    cout << ans;
 }
 
 int main() {

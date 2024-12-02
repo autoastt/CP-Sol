@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep2(i, a, b) for (int i = a; i >= b; i--)
-#define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
+#define rrep2(i, a, b) for (int i = b; i >= a; i--)
+#define rrep3(i, a, b, c) for (int i = b; i >= a; i -= c)
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -31,8 +30,24 @@ const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+int a[N];
 
+void solve() {
+    int n, ans = 0;
+    cin >> n;
+    rep (i, n) cin >> a[i], ans += a[i] > 0;
+    int i = 0;
+    while (i < n) {
+        if (a[i] == 0 || a[i] > 2) {
+            i++;
+            continue;
+        }
+        int j = i + 1;
+        while (j < n && 2 < a[j] && a[j] <= 4) j++;
+        if (j < n && 0 < a[j] && a[j] <= 2 && (j - i) % 2) ans--, i = j + 1;
+        else i++;
+    }
+    cout << ans << "\n";
 }
 
 int main() {

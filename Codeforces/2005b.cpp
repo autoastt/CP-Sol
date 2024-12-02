@@ -32,7 +32,26 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, m, q;
+    cin >> n >> m >> q;
+    vi a(m);
+    rep (m) cin >> a[i];
+    sort(all(a));
+    rep (q) {
+        int x;
+        cin >> x;
+        auto r = lb(all(a), x) - a.begin();
+        auto l = r - 1;
+        if (r == m) {
+            cout << n - a.back() << NL;
+            continue;
+        }
+        if (r == 0) {
+            cout << a[0] - 1 << NL;
+            continue;
+        }
+        cout << (a[r] - a[l]) / 2 << NL;
+    }
 }
 
 int main() {

@@ -32,7 +32,9 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n, x, y;
+    cin >> n >> x >> y;
+    cout << (n + min(x, y) - 1) / min(x, y) << NL;
 }
 
 int main() {

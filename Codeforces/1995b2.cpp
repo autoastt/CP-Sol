@@ -19,11 +19,10 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
 const bool CASES = true;
 const int N = 2e5 + 5;
@@ -32,7 +31,29 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n, m;
+    cin >> n >> m;
+    vector<pll> v(n);
+    rep (i, n) cin >> v[i].first;
+    rep (i, n) cin >> v[i].second;
+    sort(all(v));
+    ll ans = 0, pre = -1, precnt = 0;
+    for (auto [x, c] : v) {
+        if (x - pre == 1) {
+            ll tl = min(m / pre, precnt), tr = min((m - tl * pre) / x, c);
+            ll sum = tl * pre + tr * x;
+            // increase `x`, and decrease `x-1` as much as possible
+            sum += min({tl, c - tr, m - sum});
+            ans = max(ans, sum);
+        }
+        else {
+            ll k = min(m / x, c);
+            ans = max(ans, k * x);
+        }
+        pre = x;
+        precnt = c;
+    }
+    cout << min(ans, m) << "\n";
 }
 
 int main() {

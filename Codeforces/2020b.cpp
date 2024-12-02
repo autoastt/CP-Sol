@@ -32,7 +32,16 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    ll n;
+    cin >> n;
+    ll l = 1, r = 1e10;
+    while (l < r) {
+        ll mid = l + (r - l) / 2;
+        ll cnt = mid * mid - mid;
+        if (cnt < n) l = mid + 1;
+        else r = mid;
+    }
+    cout << r + n - 1 << NL;
 }
 
 int main() {

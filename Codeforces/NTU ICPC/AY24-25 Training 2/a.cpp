@@ -19,20 +19,34 @@ using vll = vector<ll>;
 #define rep1(i, a) for (int i = 0; i < a; i++)
 #define rep2(i, a, b) for (int i = a; i <= b; i++)
 #define rep3(i, a, b, c) for (int i = a; i <= b; i += c)
-#define rrep0(a) for (int i = (a) - 1; i >= 0; i--)
-#define rrep1(i, a) for (int i = (a) - 1; i >= 0; i--)
+#define rrep0(a) for (int i = a; i > 0; i--)
+#define rrep1(i, a) for (int i = a; i > 0; i--)
 #define rrep2(i, a, b) for (int i = a; i >= b; i--)
 #define rrep3(i, a, b, c) for (int i = a; i >= b; i -= c)
-#define NL '\n'
 
-const bool CASES = true;
+const bool CASES = false;
 const int N = 2e5 + 5;
 const int M = 1e9 + 7;
 const int INF = 2e9;
 const ll LLINF = 1e18;
 
-void solve() {
+ll a[N], pre[N], suf[N];
 
+void solve() {
+    int n;
+    cin >> n;
+    ll sum = 0, ans = 0;
+    rep (i, 1, n) cin >> a[i], sum += a[i];
+    pre[1] = a[1];
+    rep (i, 2, n) pre[i] = a[i] + pre[i-2];
+    suf[n] = a[n];
+    suf[n-1] = a[n-1];
+    rrep (i, n-2, 1) suf[i] = a[i] + suf[i+2];
+    rep (i, 1, n) {
+        ll tmp = pre[i-1] + suf[i+2];
+        if (tmp == sum - tmp - a[i]) ans++;
+    }
+    cout << ans;
 }
 
 int main() {

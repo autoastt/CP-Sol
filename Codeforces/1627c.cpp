@@ -32,7 +32,36 @@ const int INF = 2e9;
 const ll LLINF = 1e18;
 
 void solve() {
-
+    int n;
+    cin >> n;
+    vi adj[n + 1];
+    vector<pii> e;
+    rep (n - 1) {
+        int u, v;
+        cin >> u >> v;
+        e.pb({u, v});
+        adj[u].pb(v);
+        adj[v].pb(u);
+    }
+    rep (i, 1, n) if (sz(adj[i]) > 2) return void(cout << -1 << NL);
+    vi dis(n + 1, -1);
+    queue<int> q;
+    rep (i, 1, n) if (sz(adj[i]) == 1) {
+        q.push(i);
+        dis[i] = 1;
+        break;
+    }
+    while (!q.empty()) {
+        auto u = q.front();
+        q.pop();
+        for (auto v : adj[u]) {
+            if (dis[v] != -1) continue;
+            dis[v] = dis[u] + 1;
+            q.push(v);
+        }
+    }
+    for (auto [u, v] : e) cout << (min(dis[u], dis[v]) & 1 ? 2 : 3) << " ";
+    cout << NL;
 }
 
 int main() {
